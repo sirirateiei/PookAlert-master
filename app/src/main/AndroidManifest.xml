@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SetupTime" />
-        <activity android:name=".SetupSound"></activity>
+        <activity android:name=".SetupSound" />
+        <activity android:name=".ConfirmTime"></activity>
     </application>
 
 </manifest>
