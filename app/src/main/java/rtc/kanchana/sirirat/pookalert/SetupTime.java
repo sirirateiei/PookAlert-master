@@ -1,22 +1,19 @@
 package rtc.kanchana.sirirat.pookalert;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.CalendarView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.util.Calendar;
 
 public class SetupTime extends AppCompatActivity {
     //Explicit
     private CalendarView calendarView;
-    private TimePicker timePicker;
+    private String string;
+
 
 
     @Override
@@ -36,13 +33,44 @@ public class SetupTime extends AppCompatActivity {
                 Toast.makeText(SetupTime.this, "คุณเลือก " + day + "/" + (month + 1) + "/" + year,
                         Toast.LENGTH_SHORT).show();
 
+                confirmDate(day, month, year);
+
             }   //onSelected
         });
 
 
     }   // Main Method
 
+    private void confirmDate(final int day, final int month, final int year) {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.nobita48);
+        builder.setTitle("Confirm Date");
+        builder.setMessage("You Choose ==> " +
+                Integer.toString(day) + "/" +
+                Integer.toString(month + 1) +
+                "/" + Integer.toString(year));
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(SetupTime.this, ConfirmTime.class);
+                intent.putExtra("Day", day);
+                intent.putExtra("Month", month);
+                intent.putExtra("Year", year);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.show();
+
+    }
 
 
 }   // Main Class
