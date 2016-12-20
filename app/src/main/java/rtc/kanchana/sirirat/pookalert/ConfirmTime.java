@@ -67,7 +67,7 @@ public class ConfirmTime extends AppCompatActivity {
     }
 
     private void getValue() {
-        dateAnInt = getIntent().getIntExtra("Date", 0);
+        dateAnInt = getIntent().getIntExtra("Day", 0);
         monthAnInt = getIntent().getIntExtra("Month", 0);
         yearAnInt = getIntent().getIntExtra("Year", 0);
     }
