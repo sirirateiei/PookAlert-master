@@ -12,9 +12,6 @@ import android.widget.Toast;
 public class SetupTime extends AppCompatActivity {
     //Explicit
     private CalendarView calendarView;
-    private String string;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +19,6 @@ public class SetupTime extends AppCompatActivity {
         setContentView(R.layout.activity_setup_time);
         //Bind Widget
         calendarView = (CalendarView) findViewById(R.id.calendarView);
-
 
         //Calendarview Controller
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

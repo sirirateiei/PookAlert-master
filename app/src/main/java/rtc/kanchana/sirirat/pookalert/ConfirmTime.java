@@ -49,8 +49,6 @@ public class ConfirmTime extends AppCompatActivity {
                 hourAnInt = timePicker.getCurrentHour();
                 minusAnInt = timePicker.getCurrentMinute();
 
-
-
             }
         });
     }
