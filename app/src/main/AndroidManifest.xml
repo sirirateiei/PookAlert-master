@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rtc.kanchana.sirirat.pookalert">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".SetupTime" />
         <activity android:name=".SetupSound" />
-        <activity android:name=".ConfirmTime"></activity>
+        <activity android:name=".ConfirmTime" />
+        <activity android:name=".Notification"></activity>
     </application>
 
 </manifest>
