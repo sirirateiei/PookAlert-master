@@ -2,13 +2,15 @@ package rtc.kanchana.sirirat.pookalert;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -89,6 +91,24 @@ public class ConfirmTime extends AppCompatActivity {
     }   // confirmData
 
     private void uploadData() {
+
+        try {
+
+            MyUploadDataToServer myUploadDataToServer = new MyUploadDataToServer(ConfirmTime.this, Integer.toString(dateAnInt),
+                    Integer.toString(monthAnInt), Integer.toString(yearAnInt), Integer.toString(hourAnInt),
+                    Integer.toString(minusAnInt), string);
+            myUploadDataToServer.execute();
+
+            if (Boolean.parseBoolean(myUploadDataToServer.get())) {
+                startActivity(new Intent(ConfirmTime.this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(ConfirmTime.this, "ไม่สามารถ อัพเดด้าได้", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
