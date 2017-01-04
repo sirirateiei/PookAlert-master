@@ -1,9 +1,12 @@
 package rtc.kanchana.sirirat.pookalert;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -17,6 +20,8 @@ public class ConfirmTime extends AppCompatActivity {
     private int dateAnInt, monthAnInt, yearAnInt,
             hourAnInt, minusAnInt;
     private Button button;
+    private String string;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +54,42 @@ public class ConfirmTime extends AppCompatActivity {
                 hourAnInt = timePicker.getCurrentHour();
                 minusAnInt = timePicker.getCurrentMinute();
 
+                string = editText.getText().toString().trim();
+
+                confirmData();
+
             }
         });
+    }
+
+    private void confirmData() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmTime.this);
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.bird48);
+        builder.setTitle("Please Confirm Data");
+        builder.setMessage("วันที่เลือก = " + textView.getText().toString() + "\n" +
+                Integer.toString(hourAnInt) + ":" + Integer.toString(minusAnInt) + "\n" +
+        string);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                uploadData();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+
+    }   // confirmData
+
+    private void uploadData() {
+
     }
 
     private void setCurrentTime() {
@@ -76,6 +115,7 @@ public class ConfirmTime extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView5);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         button = (Button) findViewById(R.id.button);
+        editText = (EditText) findViewById(R.id.editText);
     }
 
 }   // Main Class
