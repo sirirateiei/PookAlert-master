@@ -1,8 +1,10 @@
 package rtc.kanchana.sirirat.pookalert;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,8 +19,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView timeTextView, dateTextView;
     private ImageView imageView;
     private String timeString, dateString;
-
-
+    private int dayAnInt, monthAnInt, hourAnInt, minusAnInt,
+            mydayAnInt, myMonthAnInt, myHourAnInt, myMinusAnInt;
+    private String tag = "4janV1";
+    private boolean aBoolean = true;
 
 
     @Override
@@ -33,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Setup Time & Date
         Calendar calendar = Calendar.getInstance();
+        dayAnInt = calendar.get(Calendar.DAY_OF_MONTH);
+        monthAnInt = calendar.get(Calendar.MONTH);
+        hourAnInt = calendar.get(Calendar.HOUR_OF_DAY);
+        minusAnInt = calendar.get(Calendar.MINUTE);
         DateFormat timeDateFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         timeString = timeDateFormat.format(calendar.getTime());
@@ -51,8 +59,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //get Value from mySQL
+        try {
+
+            SynToDo synToDo = new SynToDo(MainActivity.this, "0");
+            synToDo.execute();
+            String strJSoN = synToDo.get();
+            Log.d(tag, "JSON ==> " + strJSoN);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        checkTimeNotification();
 
 
     }   // Main Method
+
+    private void checkTimeNotification() {
+
+        //To Do
+
+
+        //Post Delay
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (aBoolean) {
+                    checkTimeNotification();
+                }
+            }
+        }, 10000);
+
+
+    }   // checkTime
 
 }   // Main Class
