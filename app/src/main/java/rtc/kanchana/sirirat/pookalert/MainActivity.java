@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private String tag = "4janV1", tag2 = "4janV2";
     private boolean aBoolean = true;
     private Calendar[] calendars;
+    private boolean aBoolean2 = true;
+    private Calendar calendar, alertCalendar;
 
 
     @Override
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         //Setup Time & Date
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         dayAnInt = calendar.get(Calendar.DAY_OF_MONTH);
         monthAnInt = calendar.get(Calendar.MONTH);
         hourAnInt = calendar.get(Calendar.HOUR_OF_DAY);
@@ -123,10 +125,53 @@ public class MainActivity extends AppCompatActivity {
 
        // checkTimeNotification();
 
-        startNotification();
+        //startNotification();
+
+        myCheckTime();
 
 
     }   // Main Method
+
+    private void myCheckTime() {
+
+        Log.d("31janV1", "aBoolean2 ก่อนลูป ==> " + aBoolean2);
+
+        for (int i=0;i<calendars.length;i++) {
+
+            Log.d("31janV1", "aBoolean2 ในลูป ==> " + aBoolean2);
+            if (aBoolean2) {
+                if (calendar.getTime().before(calendars[i].getTime())) {
+                    aBoolean2 = false;
+                    Log.d("31janV1", "เวลาที่ Alert ==> " + calendars[i].getTime().toString());
+                    alertCalendar = Calendar.getInstance();
+                    alertCalendar = calendars[i];
+                    startNotification();
+                }   //if
+            }   // if
+
+        }   //for
+
+        Log.d("31janV1", "alertCal ==>" + alertCalendar.getTime().toString());
+       // checkTimeAlert();
+
+
+    }   // myCheck
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        myCheckTime();
+        //checkTimeAlert();
+
+    }
+
+    private void checkTimeAlert() {
+        if (calendar.equals(alertCalendar)) {
+            startNotification();
+        }
+
+    }
 
     private void checkTimeNotification() {
 
