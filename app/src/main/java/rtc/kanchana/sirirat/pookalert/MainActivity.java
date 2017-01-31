@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        checkTimeNotification();
+       // checkTimeNotification();
+
+        startNotification();
 
 
     }   // Main Method

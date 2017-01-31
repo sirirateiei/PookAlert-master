@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,9 +95,19 @@ public class ConfirmTime extends AppCompatActivity {
 
         try {
 
-            MyUploadDataToServer myUploadDataToServer = new MyUploadDataToServer(ConfirmTime.this, Integer.toString(dateAnInt),
-                    Integer.toString(monthAnInt), Integer.toString(yearAnInt), Integer.toString(hourAnInt),
-                    Integer.toString(minusAnInt), string);
+            String myDate = Integer.toString(yearAnInt) + "-"
+                    + Integer.toString(monthAnInt) + "-"
+                    + Integer.toString(dateAnInt) + " " + findHour(hourAnInt) + ":" + findMinius(minusAnInt) + ":00";
+
+            Log.d("31janV1", "myDate ==> " + myDate);
+
+            MyUploadDataToServer myUploadDataToServer = new MyUploadDataToServer(ConfirmTime.this,
+                    Integer.toString(dateAnInt),
+                    Integer.toString(monthAnInt),
+                    Integer.toString(yearAnInt),
+                    Integer.toString(hourAnInt),
+                    Integer.toString(minusAnInt),
+                    string, myDate);
             myUploadDataToServer.execute();
 
             if (Boolean.parseBoolean(myUploadDataToServer.get())) {
@@ -109,6 +120,31 @@ public class ConfirmTime extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private String findMinius(int minusAnInt) {
+
+        String minus = Integer.toString(minusAnInt);
+
+        if (minus.length() == 1) {
+            return "0" + minus;
+        } else {
+            return minus;
+        }
+
+
+    }
+
+    private String findHour(int hourAnInt) {
+
+        String hour = Integer.toString(hourAnInt);
+        if (hour.length() == 1) {
+            return "0" + hour;
+        } else {
+            return hour;
+        }
+
 
     }
 
