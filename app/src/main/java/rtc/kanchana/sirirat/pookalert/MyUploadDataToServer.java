@@ -17,7 +17,7 @@ public class MyUploadDataToServer extends AsyncTask<Void, Void, String>{
 
     private static final String urlPHP = "http://swiftcodingthai.com/puk1/add_todo.php";
     private Context context;
-    private String dayString, monthString, yearString, hourString, minusString, todoString;
+    private String dayString, monthString, yearString, hourString, minusString, todoString, myDateString;
 
     public MyUploadDataToServer(Context context,
                                 String dayString,
@@ -25,7 +25,8 @@ public class MyUploadDataToServer extends AsyncTask<Void, Void, String>{
                                 String yearString,
                                 String hourString,
                                 String minusString,
-                                String todoString) {
+                                String todoString,
+                                String myDateString) {
         this.context = context;
         this.dayString = dayString;
         this.monthString = monthString;
@@ -33,6 +34,7 @@ public class MyUploadDataToServer extends AsyncTask<Void, Void, String>{
         this.hourString = hourString;
         this.minusString = minusString;
         this.todoString = todoString;
+        this.myDateString = myDateString;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class MyUploadDataToServer extends AsyncTask<Void, Void, String>{
                     .add("Day", dayString)
                     .add("Month", monthString)
                     .add("Year", yearString)
+                    .add("MyDate", myDateString)
                     .add("Hour", hourString)
                     .add("Minus", minusString)
                     .add("ToDo", todoString)

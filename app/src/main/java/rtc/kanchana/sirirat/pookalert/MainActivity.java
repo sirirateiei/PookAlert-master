@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
             mydayAnInt, myMonthAnInt, myHourAnInt, myMinusAnInt;
     private String tag = "4janV1", tag2 = "4janV2";
     private boolean aBoolean = true;
+    private Calendar[] calendars;
+    private boolean aBoolean2 = true;
+    private Calendar calendar, alertCalendar;
 
 
     @Override
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         //Setup Time & Date
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         dayAnInt = calendar.get(Calendar.DAY_OF_MONTH);
         monthAnInt = calendar.get(Calendar.MONTH);
         hourAnInt = calendar.get(Calendar.HOUR_OF_DAY);
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         timeString = timeDateFormat.format(calendar.getTime());
         dateString = dateFormat.format(calendar.getTime());
+
+        Log.d("31janV1", "เวลาปัจจุบัน ==> " + calendar.getTime().toString());
 
 
 
@@ -78,22 +83,38 @@ public class MainActivity extends AppCompatActivity {
             Log.d(tag, "JSON ==> " + strJSoN);
 
             JSONArray jsonArray = new JSONArray(strJSoN);
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-            mydayAnInt = jsonObject.getInt("Day");
-            myMonthAnInt = jsonObject.getInt("Month");
-            myHourAnInt = jsonObject.getInt("Hour");
-            myMinusAnInt = jsonObject.getInt("Minus");
+            calendars = new Calendar[jsonArray.length()];
 
-            Log.d(tag, "myDay ==>  " + mydayAnInt);
-            Log.d(tag, "myMonth ==>  " + myMonthAnInt);
-            Log.d(tag, "myHour ==>  " + myHourAnInt);
-            Log.d(tag, "myMinus ==>  " + myMinusAnInt);
+            for (int i=0;i<jsonArray.length();i++) {
 
-            Log.d(tag, "Day ==>  " + dayAnInt);
-            Log.d(tag, "Month ==>  " + monthAnInt);
-            Log.d(tag, "Hour ==>  " + hourAnInt);
-            Log.d(tag, "Minus ==>  " + minusAnInt);
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                mydayAnInt = jsonObject.getInt("Day");
+                myMonthAnInt = jsonObject.getInt("Month");
+                myHourAnInt = jsonObject.getInt("Hour");
+                myMinusAnInt = jsonObject.getInt("Minus");
+
+                calendars[i] = Calendar.getInstance();
+                calendars[i].set(Calendar.DAY_OF_MONTH, mydayAnInt);
+                calendars[i].set(Calendar.MONTH, myMonthAnInt);
+                calendars[i].set(Calendar.HOUR_OF_DAY, myHourAnInt);
+                calendars[i].set(Calendar.MINUTE, myMinusAnInt);
+                calendars[i].set(Calendar.SECOND, 0);
+
+                Log.d("31janV1", "calendars(" + i + ") ==> " + calendars[i].getTime().toString());
+
+                Log.d(tag, "myDay ==>  " + mydayAnInt);
+                Log.d(tag, "myMonth ==>  " + myMonthAnInt);
+                Log.d(tag, "myHour ==>  " + myHourAnInt);
+                Log.d(tag, "myMinus ==>  " + myMinusAnInt);
+
+                Log.d(tag, "Day ==>  " + dayAnInt);
+                Log.d(tag, "Month ==>  " + monthAnInt);
+                Log.d(tag, "Hour ==>  " + hourAnInt);
+                Log.d(tag, "Minus ==>  " + minusAnInt);
+
+            }   // for
 
 
 
@@ -102,10 +123,55 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        checkTimeNotification();
+       // checkTimeNotification();
+
+        //startNotification();
+
+        myCheckTime();
 
 
     }   // Main Method
+
+    private void myCheckTime() {
+
+        Log.d("31janV1", "aBoolean2 ก่อนลูป ==> " + aBoolean2);
+
+        for (int i=0;i<calendars.length;i++) {
+
+            Log.d("31janV1", "aBoolean2 ในลูป ==> " + aBoolean2);
+            if (aBoolean2) {
+                if (calendar.getTime().before(calendars[i].getTime())) {
+                    aBoolean2 = false;
+                    Log.d("31janV1", "เวลาที่ Alert ==> " + calendars[i].getTime().toString());
+                    alertCalendar = Calendar.getInstance();
+                    alertCalendar = calendars[i];
+                    startNotification();
+                }   //if
+            }   // if
+
+        }   //for
+
+        Log.d("31janV1", "alertCal ==>" + alertCalendar.getTime().toString());
+       // checkTimeAlert();
+
+
+    }   // myCheck
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        myCheckTime();
+        //checkTimeAlert();
+
+    }
+
+    private void checkTimeAlert() {
+        if (calendar.equals(alertCalendar)) {
+            startNotification();
+        }
+
+    }
 
     private void checkTimeNotification() {
 
