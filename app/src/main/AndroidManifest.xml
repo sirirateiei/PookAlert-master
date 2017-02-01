@@ -21,6 +21,9 @@
         <activity android:name=".SetupSound" />
         <activity android:name=".ConfirmTime" />
         <activity android:name=".Notification"></activity>
+
+        <receiver android:name=".MyReceive" android:process=":remote"/>
+
     </application>
 
 </manifest>
