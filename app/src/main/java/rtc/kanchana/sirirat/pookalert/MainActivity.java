@@ -1,7 +1,9 @@
 package rtc.kanchana.sirirat.pookalert;
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -19,6 +21,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         //startNotification();
 
-        myCheckTime();
+        //myCheckTime();
 
 
     }   // Main Method
@@ -145,23 +148,39 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("31janV1", "เวลาที่ Alert ==> " + calendars[i].getTime().toString());
                     alertCalendar = Calendar.getInstance();
                     alertCalendar = calendars[i];
-                    startNotification();
+                    //startNotification();
+                    myStartMasterNoti();
                 }   //if
             }   // if
 
         }   //for
 
-        Log.d("31janV1", "alertCal ==>" + alertCalendar.getTime().toString());
+      //  Log.d("31janV1", "alertCal ==>" + alertCalendar.getTime().toString());
        // checkTimeAlert();
 
 
     }   // myCheck
 
+    private void myStartMasterNoti() {
+
+        Random random = new Random();
+        int intBroadcast = random.nextInt(1000);
+
+        Intent intent = new Intent(getBaseContext(), MyReceive.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(),
+                intBroadcast, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(),pendingIntent);
+
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        myCheckTime();
+       myCheckTime();
         //checkTimeAlert();
 
     }
